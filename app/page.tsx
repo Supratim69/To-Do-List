@@ -1,19 +1,18 @@
-"use client";
-import { useSession } from "next-auth/react";
 import React from "react";
 import Playground from "./components/playground";
 import SignInButton from "./components/buttons/SignInButton";
+import { auth } from "./auth";
 
-export default function Home() {
-    const { data: session } = useSession();
+export default async function Home() {
+    const session = await auth();
 
     return (
         <>
             {!session ? (
-                <>
-                    <span>Welcome</span>
+                <div className="h-screen bg-white ">
+                    <span className="text-3xl font-semibold">Welcome</span>
                     <SignInButton />
-                </>
+                </div>
             ) : (
                 <Playground />
             )}
