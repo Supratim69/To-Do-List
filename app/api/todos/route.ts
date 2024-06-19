@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/app/auth";
-import { error } from "console";
 
 const prisma = new PrismaClient();
 
@@ -60,10 +59,9 @@ export async function GET() {
 //To edit a todo
 export async function PUT(request: Request) {
     try {
-        const data = await request.json();
-        console.log(data);
-        const { title, completed } = data;
         const body = await request.json();
+        console.log(body);
+        const { title, completed } = body;
 
         if (!body || !body.id) {
             return NextResponse.json(

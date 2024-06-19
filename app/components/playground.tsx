@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import SignOutButton from "./buttons/SignOutButton";
 import { FaPlus, FaCheck } from "react-icons/fa";
 import Task from "./task";
@@ -52,6 +52,18 @@ export default function Playground() {
                 }),
             });
             console.log(response.status);
+            // if (response.status === 201) {
+            //     const task = await response.json();
+            //     console.log(task);
+            //     console.log(list);
+            //     setList((prev) => {
+            //         console.log([...prev, task]);
+            //         return [...prev, task];
+            //     });
+            // } else {
+            //     alert("Error in saving!");
+            // }
+            // setTitle("");
         });
     };
 
@@ -94,6 +106,7 @@ export default function Playground() {
                 <button
                     className="hover:bg-gray-200 py-2 rounded-lg"
                     onClick={newTodo}
+                    title="Add new to-do"
                 >
                     <FaCheck className="mx-2 " />
                 </button>

@@ -24,7 +24,7 @@ interface Props {
 export default function Task(props: Props) {
     const [isChecked, setIsChecked] = useState(false);
     const [pending, startTransition] = useTransition();
-    const [upadtedTitle, setUpadtedTitle] = useState("");
+    const [upadtedTitle, setUpadtedTitle] = useState(props.title);
 
     const deleteTask = (id: string) => {
         startTransition(async () => {
@@ -44,14 +44,14 @@ export default function Task(props: Props) {
         });
     };
 
-    const editTask = (id: string) => {
+    const editTask = (id: string, title: string) => {
         startTransition(async () => {
             const response = await fetch(`http://localhost:3000/api/todos`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ id }),
+                body: JSON.stringify({ id, title }),
             });
         });
     };
@@ -84,6 +84,7 @@ export default function Task(props: Props) {
                                 isChecked ? "cursor-not-allowed" : ""
                             }`}
                             disabled={isChecked}
+                            title="Edit Task"
                         >
                             <FaPenSquare className="mx-1" />
                         </button>
@@ -91,12 +92,18 @@ export default function Task(props: Props) {
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle>Enter new task title</DialogTitle>
-                            <form action="">
+                            <form
+                                action=""
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}
+                            >
                                 <input
                                     type="text"
                                     name="title"
                                     placeholder="Add New Title"
                                     className=" border-b border-black py-2 outline-none w-full"
+                                    value={upadtedTitle}
                                     onChange={(e) => {
                                         setUpadtedTitle(e.target.value);
                                     }}
@@ -104,18 +111,18 @@ export default function Task(props: Props) {
                             </form>
                             <button
                                 className="p-2 hover:bg-gray-300 my-1 rounded-lg w-fit border"
-                                // onClick={editTask}
+                                onClick={() => editTask(props.id, upadtedTitle)}
                             >
                                 Update
                             </button>
                         </DialogHeader>
                     </DialogContent>
                 </Dialog>
-
                 <button
                     className={`hover:bg-gray-200 py-2 rounded-lg m-1 ${
                         isChecked ? "cursor-not-allowed" : ""
                     }`}
+                    title="Delete Task"
                     disabled={isChecked}
                     onClick={() => deleteTask(props.id)}
                 >
