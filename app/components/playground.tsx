@@ -62,7 +62,7 @@ export default function Playground() {
     return (
         <div className="h-screen bg-white flex flex-col justify-start items-center pt-6">
             <div className="flex flex-row items-center">
-                <span className="text-3xl font-extrabold p-2">
+                <span className="lg:text-3xl text-xl font-extrabold p-2">
                     To-do playground
                 </span>
                 <SignOutButton />
@@ -71,7 +71,7 @@ export default function Playground() {
                 type="text"
                 placeholder="Search task"
                 onChange={handleSearch}
-                className="p-2 my-4 w-[80%] border-y border-[#a7a7a7]"
+                className="p-2 my-4 lg:w-[20%] w-[50%] border rounded-3xl border-[#a7a7a7]"
             />
             <div className="border-y border-[#a7a7a7] p-3 my-4 flex flex-row items-center w-[80%] justify-between">
                 <form
