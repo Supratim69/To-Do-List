@@ -14,7 +14,17 @@ After cloning the github repo, open the repo on VSCode and use the command:
 npm i
 ```
 
-Add the .env file in the root folder of the repo
+Add the .env file in the root folder of the repo of the format:
+
+DATABASE_URL=""
+
+NEXTAUTH_URL=""
+
+AUTH_SECRET=""
+
+AUTH_GITHUB_ID=""
+
+AUTH_GITHUB_SECRET=""
 
 Then, run the development server:
 
