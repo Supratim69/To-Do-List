@@ -41,6 +41,7 @@ export default function Task(props: Props) {
                 props.setList((prevList: Todo[]) =>
                     prevList.filter((item) => item.id !== id)
                 );
+                setIsChecked(false);
             }
         });
     };
@@ -68,6 +69,9 @@ export default function Task(props: Props) {
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
+        if (!isChecked) {
+            setTimeout(() => deleteTask(props.id), 1000);
+        }
     };
 
     const handleUpdateSubmit = (e: React.FormEvent) => {
