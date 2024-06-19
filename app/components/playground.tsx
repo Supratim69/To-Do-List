@@ -10,11 +10,12 @@ export default function Playground() {
     const [title, setTitle] = useState("");
     const [pending, startTransition] = useTransition();
     const [list, setList] = useState<Todo[]>([]);
+    const [originalList, setOriginalList] = useState<Todo[]>([]);
 
     const handleSearch = (event: any) => {
         const { value } = event.target;
         if (value.length === 0) {
-            setList(list);
+            setList(originalList);
             return;
         }
 
@@ -36,7 +37,9 @@ export default function Playground() {
                     "Content-Type": "application/json",
                 },
             });
-            setList(await response.json());
+            const todos = await response.json();
+            setList(todos);
+            setOriginalList(todos);
         });
     };
 
@@ -51,19 +54,15 @@ export default function Playground() {
                     title,
                 }),
             });
-            console.log(response.status);
-            // if (response.status === 201) {
-            //     const task = await response.json();
-            //     console.log(task);
-            //     console.log(list);
-            //     setList((prev) => {
-            //         console.log([...prev, task]);
-            //         return [...prev, task];
-            //     });
-            // } else {
-            //     alert("Error in saving!");
-            // }
-            // setTitle("");
+
+            if (response.status === 200) {
+                const task = await response.json();
+                setList((prevList) => [...prevList, task]);
+                setOriginalList((prevList) => [...prevList, task]);
+                setTitle("");
+            } else {
+                alert("Error in saving!");
+            }
         });
     };
 
@@ -90,6 +89,7 @@ export default function Playground() {
                     className="flex flex-row items-center w-full"
                     onSubmit={(e) => {
                         e.preventDefault();
+                        newTodo();
                     }}
                 >
                     <FaPlus className="mx-2" />
@@ -97,7 +97,8 @@ export default function Playground() {
                         type="text"
                         name="title"
                         placeholder="Add New Task"
-                        className=" p-2 outline-none w-full"
+                        className="p-2 outline-none w-full"
+                        value={title}
                         onChange={(e) => {
                             setTitle(e.target.value);
                         }}
@@ -108,7 +109,7 @@ export default function Playground() {
                     onClick={newTodo}
                     title="Add new to-do"
                 >
-                    <FaCheck className="mx-2 " />
+                    <FaCheck className="mx-2" />
                 </button>
             </div>
             {pending && <span>Loading...</span>}
