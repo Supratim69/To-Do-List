@@ -14,6 +14,8 @@ After cloning the github repo, open the repo on VSCode and use the command:
 npm i
 ```
 
+Add the .env file in the root folder of the repo
+
 Then, run the development server:
 
 ```bash
