@@ -4,11 +4,29 @@ import SignOutButton from "./buttons/SignOutButton";
 import { FaPlus, FaCheck } from "react-icons/fa";
 import Task from "./task";
 import { Todo } from "@prisma/client";
+import Fuse from "fuse.js";
 
 export default function Playground() {
     const [title, setTitle] = useState("");
     const [pending, startTransition] = useTransition();
     const [list, setList] = useState<Todo[]>([]);
+
+    const handleSearch = (event: any) => {
+        const { value } = event.target;
+        if (value.length === 0) {
+            setList(list);
+            return;
+        }
+
+        const fuse = new Fuse(list, {
+            keys: ["title"],
+        });
+
+        const results = fuse.search(value);
+        const items = results.map((result) => result.item);
+        console.log(items);
+        setList(items);
+    };
 
     const fetchTodos = () => {
         startTransition(async () => {
@@ -49,6 +67,12 @@ export default function Playground() {
                 </span>
                 <SignOutButton />
             </div>
+            <input
+                type="text"
+                placeholder="Search task"
+                onChange={handleSearch}
+                className="p-2 my-4 w-[80%] border-y border-[#a7a7a7]"
+            />
             <div className="border-y border-[#a7a7a7] p-3 my-4 flex flex-row items-center w-[80%] justify-between">
                 <form
                     className="flex flex-row items-center w-full"
