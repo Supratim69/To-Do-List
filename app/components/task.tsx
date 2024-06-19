@@ -21,8 +21,6 @@ interface Props {
     setList: Dispatch<SetStateAction<Todo[]>>;
 }
 
-const Base_url = process.env.BASE_URL;
-
 export default function Task(props: Props) {
     const [isChecked, setIsChecked] = useState(false);
     const [pending, startTransition] = useTransition();
@@ -31,7 +29,7 @@ export default function Task(props: Props) {
 
     const deleteTask = (id: string) => {
         startTransition(async () => {
-            const response = await fetch(`${Base_url}/api/todos`, {
+            const response = await fetch(`/api/todos`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -50,7 +48,7 @@ export default function Task(props: Props) {
 
     const editTask = (id: string, title: string) => {
         startTransition(async () => {
-            const response = await fetch(`${Base_url}/api/todos`, {
+            const response = await fetch(`/api/todos`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
