@@ -6,6 +6,8 @@ import Task from "./task";
 import { Todo } from "@prisma/client";
 import Fuse from "fuse.js";
 
+const Base_url = process.env.BASE_URL;
+
 export default function Playground() {
     const [title, setTitle] = useState("");
     const [pending, startTransition] = useTransition();
@@ -31,7 +33,7 @@ export default function Playground() {
 
     const fetchTodos = () => {
         startTransition(async () => {
-            const response = await fetch("http://localhost:3000/api/todos", {
+            const response = await fetch(`${Base_url}/api/todos`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -45,7 +47,7 @@ export default function Playground() {
 
     const newTodo = () => {
         startTransition(async () => {
-            const response = await fetch("http://localhost:3000/api/todos", {
+            const response = await fetch(`${Base_url}/api/todos`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
